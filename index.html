@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>পল্লী বিদ্যুৎ লাইনম্যান MCQ (Noto Sans Bengali)</title>
+    <!-- Noto Sans Bengali (Google Font) – clean and widely used in Bangladesh -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+            background: #0a0f1e;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            color: #e0e7ff;
+        }
+        .exam-container { width: 100%; max-width: 560px; margin: 0 auto; }
+        .card {
+            background: rgba(18, 25, 45, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 48px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 30px 50px -15px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.05);
+        }
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; background: rgba(0,0,0,0.25); border-radius: 60px;
+            padding: 8px 12px 8px 20px; border: 1px solid rgba(255,255,255,0.03);
+        }
+        .logo-area { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #b1c3ff; }
+        .logo-icon { background: #2b3b6b; border-radius: 30px; padding: 6px 10px; font-size: 0.9rem; color: white; font-weight: 700; }
+        .timer-pill {
+            background: #1e2a44; padding: 8px 20px; border-radius: 40px; display: flex; align-items: center;
+            gap: 10px; color: #d9e2ff; font-weight: 600; border: 1px solid #3f4d7a; box-shadow: 0 6px 0 #0b1222;
+        }
+        .timer-pill i { color: #ffb347; font-size: 1.2rem; }
+        #timerDisplay {
+            font-family: 'Inter', monospace; font-size: 1.5rem; font-weight: 700; color: white;
+            text-shadow: 0 0 6px #71a5ff; min-width: 60px; text-align: center;
+        }
+        .q-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .q-counter { background: #1f2b48; padding: 6px 20px; border-radius: 40px; font-weight: 500; font-size: 1rem; color: #b5cbff; border: 1px solid #334155; }
+        .score-badge { background: #fbbf24; color: #0a0f1e; font-weight: 700; padding: 6px 16px; border-radius: 30px; display: flex; align-items: center; gap: 6px; font-size: 1rem; box-shadow: 0 5px 0 #b45309; }
+        .question-box { background: #0f172a; border: 1px solid #2e3a5c; border-radius: 32px; padding: 24px 20px; margin: 24px 0 28px; box-shadow: inset 0 2px 5px #00000055, 0 10px 15px -10px #000; }
+        .question-text { font-size: 1.35rem; line-height: 1.6; font-weight: 500; color: #f0f4ff; word-break: break-word; }
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 32px; }
+        .option-btn {
+            background: #1e293b; border: 2px solid #334155; border-radius: 60px; padding: 18px 24px;
+            font-size: 1.2rem; font-weight: 500; color: #e2e8f0; display: flex; align-items: center;
+            gap: 20px; transition: all 0.15s ease; cursor: pointer; box-shadow: 0 8px 0 #0f172a;
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif; text-align: left; width: 100%;
+        }
+        .option-btn:active { transform: translateY(4px); box-shadow: 0 4px 0 #0f172a; }
+        .option-btn.selected-correct { background: #14532d; border-color: #4ade80; box-shadow: 0 8px 0 #0a3a1f; color: #dcfce7; }
+        .option-btn.selected-wrong { background: #7f1d1d; border-color: #f87171; box-shadow: 0 8px 0 #4c1111; color: #fee2e2; }
+        .option-btn:disabled { opacity: 0.8; cursor: not-allowed; transform: translateY(4px); box-shadow: 0 4px 0 #0f172a; }
+        .option-prefix { background: #0f172a; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.6rem; color: white; border: 2px solid #4f6e9b; flex-shrink: 0; }
+        .nav-row { display: flex; gap: 16px; justify-content: center; margin-top: 16px; }
+        .nav-btn {
+            background: #1f2b48; border: none; padding: 16px 36px; border-radius: 60px; font-weight: 600;
+            font-size: 1.2rem; color: #d1dcff; display: inline-flex; align-items: center; gap: 12px;
+            box-shadow: 0 8px 0 #0b1222; transition: 0.1s ease; cursor: pointer; border: 1px solid #3c4c73;
+            flex: 1; justify-content: center;
+        }
+        .nav-btn:active { transform: translateY(4px); box-shadow: 0 4px 0 #0b1222; }
+        .nav-btn:disabled { opacity: 0.3; transform: translateY(4px); box-shadow: 0 4px 0 #0b1222; pointer-events: none; }
+        .finish-screen { text-align: center; padding: 30px 10px; }
+        .result-circle { background: linear-gradient(145deg, #1f2b48, #0f1a2f); width: 220px; height: 220px; border-radius: 50%; margin: 30px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 4px solid #fbbf24; box-shadow: 0 0 40px #fbbf2466; }
+        .result-big { font-size: 4.5rem; font-weight: 800; color: #fde047; line-height: 1; }
+        .restart-btn { background: #fbbf24; border: none; padding: 20px 50px; border-radius: 60px; font-size: 1.5rem; font-weight: 700; color: #0a0f1e; box-shadow: 0 12px 0 #b45309; cursor: pointer; transition: 0.1s ease; margin-top: 30px; }
+        .restart-btn:active { transform: translateY(6px); box-shadow: 0 6px 0 #b45309; }
+    </style>
+</head>
+<body>
+<div class="exam-container">
+    <div class="card" id="mainCard"></div>
+</div>
+<script>
+(function() {
+    // ---------- ফাংশন: বাংলা অঙ্ককে ইংরেজি অঙ্কে রূপান্তর ----------
+    function convertBengaliDigitsToEnglish(str) {
+        const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        let result = '';
+        for (let char of str) {
+            const index = bengaliDigits.indexOf(char);
+            if (index !== -1) {
+                result += englishDigits[index];
+            } else {
+                result += char;
+            }
+        }
+        return result;
+    }
+
+    // ---------- প্রশ্ন ব্যাংক (বাংলা লেখা, কিন্তু অঙ্কগুলো বাংলা অঙ্কে) ----------
+    const rawQuestionBank = [
+        // মৌলিক সংজ্ঞা
+        { q: "ওহম (Ω) কাকে বলে?", opts: ["রেজিস্ট্যান্স, রিঅ্যাক্ট্যান্স, ইম্পিডেন্সের একক", "ভোল্টেজের একক", "কারেন্টের একক", "পাওয়ারের একক"], correct: 0 },
+        { q: "হাজি (Hz) কি?", opts: ["ভোল্টের একক", "অ্যাম্পিয়ারের একক", "ফ্রিকোয়েন্সির একক", "ওয়াটের একক"], correct: 2 },
+        { q: "রেজিস্ট্যান্স কি?", opts: ["বিদ্যুৎ প্রবাহের বাধা", "বিদ্যুৎ প্রবাহের সহায়তা", "বিদ্যুৎ সঞ্চয় ক্ষমতা", "বিদ্যুৎ চুম্বকত্ব"], correct: 0 },
+        { q: "ইনডাক্টেন্স কি?", opts: ["ডিসি কারেন্টের বাধা", "এসি কারেন্টে লুপ বা কয়েলের সৃষ্ট বাধা", "ক্যাপাসিটরের বাধা", "তারের রোধ"], correct: 1 },
+        { q: "ক্যাপাসিট্যান্স কি?", opts: ["এসি কারেন্টে ফাঁকা জায়গায় সৃষ্ট বাধা", "পরিবাহীর রোধ", "ভোল্টেজ বৃদ্ধি", "কারেন্ট সঞ্চয়"], correct: 0 },
+        { q: "রিঅ্যাক্ট্যান্স কি?", opts: ["ইনডাক্টেন্স ও ক্যাপাসিট্যান্সের যোগফল", "রেজিস্ট্যান্সের বিপরীত", "পাওয়ার ফ্যাক্টর", "ইম্পিডেন্সের বর্গ"], correct: 0 },
+        { q: "কন্ডাক্টিভিটি বলতে কি বোঝায়?", opts: ["বিদ্যুৎ পরিবহনের ক্ষমতা", "তারের দৈর্ঘ্য", "ভোল্টেজ হ্রাস", "কারেন্টের চুম্বকত্ব"], correct: 0 },
+        { q: "অ্যাম্পাসিটি কি?", opts: ["তারের সর্বোচ্চ কারেন্ট বহন ক্ষমতা", "ভোল্টেজের মাত্রা", "পাওয়ার ফ্যাক্টর", "ফ্রিকোয়েন্সির মান"], correct: 0 },
+        { q: "বৈদ্যুতিক ক্ষমতা (পাওয়ার) কি?", opts: ["ভোল্ট ও কারেন্টের গুণফল", "রেজিস্ট্যান্স ও সময়", "কারেন্ট ও দূরত্ব", "ভোল্টেজ ও চার্জ"], correct: 0 },
+        { q: "কিলোওয়াট (kW) কি?", opts: ["১০০০ ওয়াট", "১ ওয়াটের ১০০০ গুণ", "১০০ ভোল্ট-অ্যাম্পিয়ার", "ঘন্টায় শক্তি"], correct: 0 },
+        { q: "ওয়াট-আওয়ার (Wh) কি?", opts: ["১০০০ ওয়াট ১ ঘন্টায় ব্যবহৃত শক্তি", "১ ওয়াট ৩৬০০ সেকেন্ডে", "ভোল্ট-অ্যাম্পিয়ার-ঘন্টা", "কারেন্ট-ভোল্ট"], correct: 0 },
+        { q: "মেগাওয়াট (MW) কি?", opts: ["১০,০০,০০০ ওয়াট", "১০০০ ওয়াট", "১০ লক্ষ কিলোওয়াট", "১০০ কিলোওয়াট"], correct: 0 },
+        { q: "সুইচ এর কাজ কি?", opts: ["সার্কিট সংযোগ বা বিচ্ছিন্ন করা", "ভোল্টেজ নিয়ন্ত্রণ", "কারেন্ট পরিমাপ", "শক্তি সঞ্চয়"], correct: 0 },
+        { q: "আর্থিং (গ্রাউন্ডিং) কি?", opts: ["মাটির সাথে সংযোগ স্থাপন", "লাইনের ভোল্টেজ বাড়ানো", "শর্ট সার্কিট তৈরি", "পোল স্থাপন"], correct: 0 },
+        { q: "নিউটাল তারের কাজ কি?", opts: ["ভোল্টেজ স্থিতিশীল রাখতে মাটির সাথে সংযোগ", "কারেন্ট বহন না করা", "ফেজ তারকে রক্ষা", "পাওয়ার ফ্যাক্টর উন্নত"], correct: 0 },
+        { q: "BIL (বেসিক ইনসুলেশন লেভেল) কি?", opts: ["ইনসুলেশনের মৌলিক সহন মাত্রা", "ট্রান্সফরমারের রেটিং", "ব্রেকারের ধরণ", "তারের ক্রস-সেকশন"], correct: 0 },
+        { q: "KVA কি নির্দেশ করে?", opts: ["ট্রান্সফরমারের আপাত ক্ষমতা", "ভোল্টেজ রেটিং", "কারেন্ট রেটিং", "পাওয়ার ফ্যাক্টর"], correct: 0 },
+        { q: "পাওয়ার ফ্যাক্টর সংজ্ঞা দাও।", opts: ["কারেন্ট ও ভোল্টের কোসাইনের মান", "রেজিস্ট্যান্স ও ইম্পিডেন্সের অনুপাত", "ওয়াট ও ভিএআর-এর অনুপাত", "কারেন্ট ও ভোল্টের গুণফল"], correct: 0 },
+        { q: "কন্ডাক্টর কাকে বলে?", opts: ["বিদ্যুৎ প্রবাহের জন্য ব্যবহৃত ধাতব তার", "ইনসুলেটর", "ট্রান্সফরমার কোর", "পোলের বন্ধনী"], correct: 0 },
+        { q: "ফিডার লাইন কি?", opts: ["তিন ফেজ বিশিষ্ট প্রাইমারী লাইন", "সেকেন্ডারী ডিস্ট্রিবিউশন লাইন", "গ্রাউন্ড তার", "নিউটাল তার"], correct: 0 },
+        { q: "কৌণিক বেগ (Angular velocity) কি?", opts: ["রোটরের ঘূর্ণন গতি", "লাইনের ফ্রিকোয়েন্সি", "কারেন্টের পরিবর্তন হার", "ভোল্টেজের ওঠানামা"], correct: 0 },
+        // ক্লিক শীট ও ফরম
+        { q: "ক্লিক শীটের ফরম নং কত?", opts: ["৩৪৮", "৫৬৯", "১০০-২৮", "৪৫৮"], correct: 0 },
+        { q: "ক্লিক শীটে অপসারণের সংকেত কোনটি?", opts: ["* (তারকা)", "○ (বৃত্ত)", "# (হ্যাশ)", "✓ (টিক)"], correct: 0 },
+        { q: "ক্লিক শীট অনুমোদন করেন কে?", opts: ["নির্বাহী প্রকৌশলী", "লাইনম্যান", "সহকারী প্রকৌশলী", "চেয়ারম্যান"], correct: 0 },
+        { q: "ERC এর পূর্ণরূপ কি?", opts: ["Equipment Record Card", "Energy Regulatory Commission", "Electrical Repair Code", "Earth Resistance Check"], correct: 0 },
+        { q: "ভেন্ট্রিকুলার ফাইব্রিলেশন সাধারণত কত মিলিঅ্যাম্পিয়ারে হয়?", opts: ["২৫-২০০ mA", "৬-১০ mA", "১০-২৮ mA", "২০০ mA এর বেশি"], correct: 0 },
+        { q: "অক্সিজেন ছাড়া মানুষ কত মিনিট বাঁচতে পারে?", opts: ["৪-৫ মিনিট", "১-২ মিনিট", "১০-১২ মিনিট", "১৫-২০ মিনিট"], correct: 0 },
+        { q: "ক্লিক স্প্যান (span) এর সূত্র কি?", opts: ["গড় স্প্যান + ২/৩ (সর্বোচ্চ স্প্যান − গড় স্প্যান)", "গড় স্প্যান − ২/৩ (সর্বোচ্চ স্প্যান)", "সর্বোচ্চ স্প্যান − গড় স্প্যান", "গড় স্প্যান × ১.৫"], correct: 0 },
+        // ট্রান্সফরমার
+        { q: "ট্রান্সফরমারের অপর নাম কি?", opts: ["স্ট্যাটিক মেশিন", "ডায়নামো", "মোটর", "জেনারেটর"], correct: 0 },
+        { q: "ট্রান্সফরমার কোর কি দিয়ে তৈরি?", opts: ["লেমিনেটেড সিলিকন স্টিল", "সলিড আয়রন", "কপার", "অ্যালুমিনিয়াম"], correct: 0 },
+        { q: "ট্রান্সফরমারে তেলের কাজ কী?", opts: ["ইনসুলেশন ও কুলিং", "শুধু কুলিং", "শুধু ইনসুলেশন", "ভোল্টেজ নিয়ন্ত্রণ"], correct: 0 },
+        { q: "পিন টাইপ ইনসুলেটর কোথায় ব্যবহৃত হয়?", opts: ["বিতরণ লাইনে", "ট্রান্সমিশন লাইনে", "সাবস্টেশনে", "আর্থিং তারে"], correct: 0 },
+        { q: "সাসপেনশন ইনসুলেটর কত ভোল্ট পর্যন্ত সহ্য করতে পারে?", opts: ["১১০০০ ভোল্ট", "২৩০ ভোল্ট", "৪০০ ভোল্ট", "৩৩০০০ ভোল্ট"], correct: 0 },
+        { q: "সি-টেন (C-10) ইনসুলেটর কিসের জন্য?", opts: ["১১ কেভি সাসপেনশন", "পিন টাইপ", "শ্যাকল টাইপ", "স্পুল টাইপ"], correct: 0 },
+        { q: "সি-থ্রি (C-3) ইনসুলেটর কোথায় ব্যবহৃত হয়?", opts: ["১১ কেভি পিন টাইপ", "৩৩ কেভি সাসপেনশন", "লো ভোল্টেজ নিউট্রাল", "আর্থিং"], correct: 2 },
+        { q: "ক্ল্যাম্প অন মিটার সাধারণত কি মাপে?", opts: ["এসি কারেন্ট", "ডিসি ভোল্টেজ", "রেজিস্ট্যান্স", "ফ্রিকোয়েন্সি"], correct: 0 },
+        { q: "মেগার দিয়ে কি পরিমাপ করা হয়?", opts: ["ইনসুলেশন রেজিস্ট্যান্স", "ভোল্টেজ", "কারেন্ট", "পাওয়ার"], correct: 0 },
+        { q: "ট্রান্সফরমারের পোলারিটি টেস্ট কেন করা হয়?", opts: ["সমান্তরাল অপারেশনের জন্য", "কোর লস জানতে", "ইনসুলেশন চেক", "ট্যাপ পরিবর্তন"], correct: 0 },
+        { q: "এডিটিভ পোলারিটি কোন ট্রান্সফরমারে থাকে?", opts: ["ডিস্ট্রিবিউশন ট্রান্সফরমার", "পাওয়ার ট্রান্সফরমার", "সিটি", "পিটি"], correct: 0 },
+        { q: "অটো ট্রান্সফরমার কাকে বলে?", opts: ["একটি কয়েলই প্রাইমারি ও সেকেন্ডারি", "দুইটি পৃথক কয়েল", "তিন উইন্ডিং বিশিষ্ট", "স্টেপ-আপ ট্রান্সফরমার"], correct: 0 },
+        { q: "সিটি (CT) এর সেকেন্ডারি কখনো ওপেন রাখা যায় না কারণ?", opts: ["উচ্চ ভোল্টেজ ইন্ডিউস হয়", "কারেন্ট বন্ধ হয়", "পাওয়ার ফ্যাক্টর কমে", "ইনসুলেশন নষ্ট"], correct: 0 },
+        { q: "পিটি (PT) সাধারণত কোথায় ব্যবহার করা হয়?", opts: ["মিটারিং ও প্রটেকশনে", "পাওয়ার সাপ্লাইতে", "লাইটিং সার্কিটে", "মোটর কন্ট্রোলে"], correct: 0 },
+        { q: "ক্যাপাসিটর ব্যাংক এর কাজ কি?", opts: ["পাওয়ার ফ্যাক্টর উন্নত করা", "ভোল্টেজ কমানো", "কারেন্ট কমানো", "হারমোনিক কমানো"], correct: 0 },
+        { q: "লাইটিং অ্যারেস্টার কোথায় লাগে?", opts: ["ট্রান্সফরমার এইচটি বুশিং এর কাছে", "পোলের গোড়ায়", "মিটারের পাশে", "নিউটাল তারে"], correct: 0 },
+        { q: "ফিউজ এর কাজ কি?", opts: ["অতিরিক্ত কারেন্টে সার্কিট বিচ্ছিন্ন", "ভোল্টেজ নিয়ন্ত্রণ", "শক্তি সঞ্চয়", "পাওয়ার ফ্যাক্টর উন্নত"], correct: 0 },
+        { q: "ফিউজিং কারেন্ট কাকে বলে?", opts: ["ন্যূনতম কারেন্ট যাতে ফিউজ গলে যায়", "রেটেড কারেন্ট", "শর্ট সার্কিট কারেন্ট", "লোড কারেন্ট"], correct: 0 },
+        { q: "ACR এর পূর্ণরূপ কি?", opts: ["Automatic Circuit Recloser", "Alternating Current Relay", "Auto Control Relay", "Air Circuit Recloser"], correct: 0 },
+        { q: "OCR এর কাজ কি?", opts: ["অতিরিক্ত কারেন্টে ট্রিপ করা", "ভোল্টেজ নিয়ন্ত্রণ", "ফ্রিকোয়েন্সি রক্ষা", "পাওয়ার ফ্যাক্টর ঠিক করা"], correct: 0 },
+        { q: "গ্রাউন্ড ওয়্যার সাধারণত কি রঙের হয়?", opts: ["সবুজ বা কালো", "লাল", "নীল", "হলুদ"], correct: 0 },
+        { q: "পোলের গোড়া থেকে কত ফুট পর্যন্ত গ্রাউন্ড লাইন সেকশন বলে?", opts: ["১ ফুট উপরে ও ২ ফুট নিচে", "২ ফুট উপরে", "৩ ফুট নিচে", "৫ ফুট চারপাশ"], correct: 0 },
+        { q: "হট লাইন টুলস (TL-৪০০) দিয়ে কি কাজ করা হয়?", opts: ["চালু লাইনে কাজ", "বন্ধ লাইনে কাজ", "পোল গর্ত করা", "ট্রান্সফরমার তোলা"], correct: 0 },
+        { q: "ক্লাইম্বিং সেটের গ্যাপ কত প্রকার?", opts: ["৫ অংশ", "৩ অংশ", "৪ অংশ", "৬ অংশ"], correct: 0 },
+        { q: "বোলাইন অন এ বাইট নট কেন ব্যবহার করা হয়?", opts: ["অসুস্থ লাইনম্যানকে নামাতে", "তার টানতে", "পোলে ওঠার সময়", "মাল বাঁধতে"], correct: 0 },
+        { q: "রানিং বোলাইন নট এর বৈশিষ্ট্য কি?", opts: ["দূর থেকে তৈরি করা যায়", "পিছলে যায় না", "খুব শক্ত", "রশি কাটে"], correct: 0 },
+        { q: "টাই লাইন কি?", opts: ["দুই ফিডারের সংযোগ", "গ্রাউন্ড তার", "নিউটাল তার", "সার্ভিস ড্রপ"], correct: 0 },
+        { q: "স্টেকিং মিলেজ ও অ্যাসবিল্ট মিলেজের ভিন্নতা কত?", opts: ["±৫%", "±১০%", "±১৫%", "±২০%"], correct: 0 },
+        { q: "ইকোনমিক স্টেকিং কাকে বলে?", opts: ["সর্বনিম্ন খরচে সর্বোচ্চ রাজস্ব", "সবচেয়ে লম্বা লাইন", "সবচেয়ে মোটা তার", "কম পোলে বেশি স্প্যান"], correct: 0 },
+        { q: "রেভিনিউ রেশিও এর গ্রহণযোগ্য মান কত?", opts: ["কমপক্ষে ১", "০.৫ এর বেশি", "২ এর কম", "যেকোনো মান"], correct: 0 },
+        { q: "ট্রান্সফরমারের অল টেস্ট এর মধ্যে কোনটি?", opts: ["পোলারিটি টেস্ট", "প্রেশার টেস্ট", "স্মোক টেস্ট", "ডেনসিটি টেস্ট"], correct: 0 },
+        { q: "নো লোড টেস্ট এ কী পাওয়া যায়?", opts: ["কোর লস", "কপার লস", "ইম্পিডেন্স লস", "হিস্টেরেসিস লস"], correct: 0 },
+        { q: "শর্ট সার্কিট টেস্ট এ কী পাওয়া যায়?", opts: ["কপার লস", "কোর লস", "আয়রন লস", "এডি কারেন্ট লস"], correct: 0 },
+        { q: "ট্রান্সফরমার তেলের ফ্ল্যাশ পয়েন্ট কত ডিগ্রি সেলসিয়াস?", opts: ["২০০°C", "১০০°C", "১৫০°C", "২৫০°C"], correct: 0 },
+        { q: "নতুন ট্রান্সফরমার তেলের ডাইলেক্ট্রিক স্ট্রেংথ কত?", opts: ["৩০-৩২ কেভি", "২০-২২ কেভি", "৪০-৪২ কেভি", "১৫-১৮ কেভি"], correct: 0 },
+        { q: "পুরাতন ট্রান্সফরমার তেলের ডাইলেক্ট্রিক স্ট্রেংথ কত?", opts: ["২৬ কেভি", "২০ কেভি", "৩০ কেভি", "৩৫ কেভি"], correct: 0 },
+        { q: "লাইন টহল কত প্রকার?", opts: ["৪ প্রকার", "২ প্রকার", "৩ প্রকার", "৫ প্রকার"], correct: 0 },
+        { q: "ফলো-আপ টহল কিসের পরে দেওয়া হয়?", opts: ["ফল্ট বা ফিউজ পোড়ার পর", "নিয়মিত বিরতিতে", "বর্ষার আগে", "গ্রীষ্মকালে"], correct: 0 },
+        { q: "সেকেন্ডারী লাইনে অনুমোদিত ভোল্টেজ ড্রপ কত?", opts: ["৪.৬ ভোল্ট (২%)", "৬ ভোল্ট", "১০ ভোল্ট", "৩.৫ ভোল্ট"], correct: 0 },
+        { q: "ট্রান্সফরমারে অনুমোদিত ভোল্টেজ ড্রপ কত?", opts: ["৩.৫ ভোল্ট (১.৫%)", "২ ভোল্ট", "৫ ভোল্ট", "৭ ভোল্ট"], correct: 0 },
+        { q: "প্রাইমারী লাইনে অনুমোদিত ভোল্টেজ ড্রপ কত?", opts: ["৬.৯৪ ভোল্ট (৩%)", "১০ ভোল্ট", "১৫ ভোল্ট", "২০ ভোল্ট"], correct: 0 },
+        { q: "জি-১০৫ ইউনিট কি?", opts: ["সিঙ্গেল ফেজ ট্রান্সফরমার রানিং লাইন", "থ্রি ফেজ ট্রান্সফরমার", "ক্যাপাসিটর ব্যাংক", "গাই ইউনিট"], correct: 0 },
+        { q: "জি-৩১২ ইউনিট কি?", opts: ["তিনটি ট্রান্সফরমার ক্লাস্টার (৩-ফেজ ব্যাংক)", "সিঙ্গেল ফেজ ট্রান্সফরমার", "ফিউজ কাটআউট", "আর্থিং ইউনিট"], correct: 0 },
+        { q: "M২-১ ইউনিটের কাজ কি?", opts: ["সিস্টেম গ্রাউন্ডিং", "ট্রান্সফরমার মাউন্টিং", "ফিউজ স্থাপন", "গাই তার"], correct: 0 },
+        { q: "E১-১ গাই ফিটিং কত ইঞ্চি তারের জন্য?", opts: ["১/৪ ইঞ্চি", "৩/৮ ইঞ্চি", "৭/১৬ ইঞ্চি", "১/২ ইঞ্চি"], correct: 0 },
+        { q: "গাই তারের কোণ সাধারণত কত ডিগ্রি হয়?", opts: ["৪৫°", "৩০°", "৬০°", "৯০°"], correct: 0 },
+        { q: "পোলের HC চিহ্নিতকরণে H ও C কি বোঝায়?", opts: ["H=উচ্চতা, C=শ্রেণী (বাট সাইজ)", "H=Hard, C=Class", "H=Height, C=Circumference", "H=High voltage, C=Current"], correct: 0 },
+        { q: "ক্লিক শীটের ফরম নং ৩৪৮ R এ R অর্থ কি?", opts: ["Revised", "Register", "Rough", "Receipt"], correct: 0 },
+        { q: "ট্রান্সফরমারের H১ ও X১ এর মধ্যে মেগার রিডিং কত হওয়া উচিত?", opts: ["১০০০+ MΩ", "০ MΩ", "৫০০ MΩ", "অসীম"], correct: 0 },
+        { q: "সিটি (CT) রেশিও ২০০:৫ হলে মাল্টিপ্লাইং ফ্যাক্টর কত?", opts: ["৪০", "২০০", "৫", "১০০"], correct: 0 },
+        { q: "মিটার বোর্ডে রেনি লুপ কেন দেওয়া হয়?", opts: ["বৃষ্টির পানি ঢুকতে না দেওয়া", "মিটার সুরক্ষা", "সৌন্দর্য", "তারের দৈর্ঘ্য বাড়াতে"], correct: 0 },
+        // True/False questions (সত্য/মিথ্যা)
+        { q: "ক্লিক শীট বড় ধরনের পরিবর্তনের জন্য Change Order প্রয়োজন। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "এজ জিন্ট স্টোকিি সিট সমিতির নিকট হস্তান্তর করতে হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "এটা 'C' জাতীয় স্টোকচারের সকল সময় একটি ক্লাস আর্থ, একটি পিন ব্যবস্থিত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ডিটেইল ম্যাপে ৬ = ০১ মাইল। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "কি ম্যাপে ২ = ০১ মাইল। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সেকশন বারে অবস্থান পরিবর্তনের আগে উভয় ক্লাইখারেক দূর্ভাবে স্থাপন করে নিতে হবে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "পোলে ক্লাইম্বিং এর সময় ওয়াকি টকি ব্যবহারের প্রয়োজন নেই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 1 },
+        { q: "A২ ফিটিংস এ ক্রসআর্ম ব্যবহৃত হয় ০১ টি। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 1 },
+        { q: "পিন্ডে ভাইব্যান্ট ব্যবহৃত হয় C২ ফিটিংস। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "এ্যাংকর রডের আইটেম নং B৬২। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "৩ACSR তার ব্যবহৃত হয় E১০ ফিটিংস। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সাসপেনশন ইনসুলেটরের অপর নাম স্টেশন ইনসুলেটর। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সি-৩ ইনসুলেটর ক্লাস আর্থ পিনে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 1 },
+        { q: "ট্রান্সফরমারের এইচটি ও এলটি কয়েলের মাঝে ইলেকট্রিক্যাল সংযোগ থাক। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 1 },
+        { q: "ওসিআর/এসিআর কারেন্ট প্রটেকশন ডিভাইস। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "লাইটিং অ্যারেস্টারের কাজ ওভার ভোল্টেজ প্রটেকশন দেওয়া। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ভোল্টেজ রেগুলেটর এর সিরিজ কয়েল ৬৩৫ ভোল্ট ধারণ করে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        // গণিত ও বিবিধ
+        { q: "একটি ১০ কেভিএ ট্রান্সফরমারের প্রাইমারী ও সেকেন্ডারী কারেন্ট কত? (৬.৩৫/০.২৪ কেভি)", opts: ["১.৫৯ A ও ৮১.৬৬ A", "২.৫ A ও ১০০ A", "১.০ A ও ৪০ A", "০.৫ A ও ২০ A"], correct: 0 },
+        { q: "২৫ কেভিএ ট্রান্সফরমারের জন্য কত এ্যাম্পিয়ার ফিউজ প্রয়োজন?", opts: ["৫ A", "১০ A", "১৫ A", "২০ A"], correct: 0 },
+        { q: "৬.৩৫ কেভি লাইনে রেজিস্ট্যান্স ১০Ω এবং ২০A লোড কারেন্ট হলে ১ ঘন্টায় শক্তি অপচয় কত?", opts: ["৪ kWh", "২ kWh", "১০ kWh", "২০ kWh"], correct: 0 },
+        { q: "তিন ফেজ লাইনের ফেজ টু নিউট্রাল ভোল্টেজ ২৪০V এবং ফেজ কারেন্ট ৪০A হলে আপাত ক্ষমতা কত?", opts: ["২৮.৮ kVA", "১০ kVA", "৫০ kVA", "৭২ kVA"], correct: 0 },
+        { q: "৩.২৭ kW প্রকৃত ক্ষমতা ও ৩.৫৩ kVA আপাত ক্ষমতা হলে পাওয়ার ফ্যাক্টর কত?", opts: ["০.৯৩", "০.৮৫", "০.৭৮", "০.৯৯"], correct: 0 },
+        { q: "৩০ HP মোটর, দক্ষতা ৯০%, PF ০.৯৫ হলে আপাত ক্ষমতা কত?", opts: ["২৬.১৭৫ kVA", "৩০ kVA", "২৫ kVA", "২৮ kVA"], correct: 0 },
+        { q: "ট্রান্সফরমার প্রাইমারী ৬৩৫০V, সেকেন্ডারী ২৩০V, প্রাইমারী পাক ১০০০ হলে সেকেন্ডারী পাক কত?", opts: ["৩৬.২২", "৫০", "১০০", "২৫০"], correct: 0 },
+        { q: "৬৩৫০V লাইন, রেজিস্ট্যান্স ২০Ω, ৩০A কারেন্ট ২ ঘন্টায় অপচয় কত?", opts: ["৩৬ kWh", "২০ kWh", "৪০ kWh", "১০ kWh"], correct: 0 },
+        // টুলস আইটেম
+        { q: "লাইনম্যানের ব্যক্তিগত টুলস কোন সিরিজ দিয়ে শুরু?", opts: ["TL-১০০", "TL-২০০", "TL-৩০০", "TL-৪০০"], correct: 0 },
+        { q: "হট লাইন টুলস কোন সিরিজ?", opts: ["TL-৪০০", "TL-১০০", "TL-৫০০", "TL-৬০০"], correct: 0 },
+        { q: "ক্লাইম্বিং সেটের টুলস কোনটি?", opts: ["TL-১০৫", "TL-২০১", "TL-৩০১", "TL-৪০১"], correct: 0 },
+        // নট সম্পর্কিত
+        { q: "অসুস্থ লাইনম্যানকে পোল থেকে নামাতে কোন নট ব্যবহার করা হয়?", opts: ["বোলাইন অন এ বাইট", "স্কয়ার নট", "ক্লোভ হিচ", "টিম্বার হিচ"], correct: 0 },
+        { q: "গাছের ডাল নিরাপদে নামাতে কোন নট ব্যবহার করা হয়?", opts: ["রানিং বোলাইন", "বোলাইন", "ফিগার এইট", "ক্যাটস প"], correct: 0 },
+        { q: "পোল টানার জন্য কোন নট ব্যবহার করা হয়?", opts: ["টিম্বার হিচ এন্ড হাফ হিচ", "রক ওয়াল নট", "ক্রস নট", "মেইপ ভাইন"], correct: 0 },
+        { q: "অস্থায়ী তার বাঁধতে কোন নট?", opts: ["মেইপ ভাইন নট", "বোলাইন", "স্কয়ার নট", "ফিগার এইট"], correct: 0 },
+        { q: "বোলাইন অন এ বাইট নট তৈরীতে রশির সাইজ কত হওয়া উচিত?", opts: ["১/২ ইঞ্চি", "১ ইঞ্চি", "৩/৮ ইঞ্চি", "৫/৮ ইঞ্চি"], correct: 0 },
+        // ফরম নম্বর
+        { q: "লাইন পরিদর্শন রিপোর্টের ফরম নং কত?", opts: ["৫৬৯", "৩৪৮", "৪৫৮", "৫৭৩"], correct: 0 },
+        { q: "মিটার রিপোর্ট ফরম নং?", opts: ["২০৫", "২৬০", "৩২৩", "৪৫০"], correct: 0 },
+        { q: "ট্রাসফরমার রেকর্ড কার্ড নং?", opts: ["২৬৪", "২০১", "৩৩৯", "৪৫৫"], correct: 0 },
+        { q: "ক্লিক শীটের ফরম নং?", opts: ["৩৪৮", "৩৪৮R", "১০০-২৮", "১০০-৩০"], correct: 0 },
+        { q: "সাটডাউন ট্যাগের ফরম নং?", opts: ["৪৫০ (হলুদ)", "৪৫১ (লাল)", "৪৫৮", "৫৬৯"], correct: 0 },
+        // ইনসুলেটর
+        { q: "স্পুল ইনসুলেটর কোথায় ব্যবহৃত হয়?", opts: ["নিউট্রাল তারে", "ফেজ তারে", "আর্থ তারে", "ট্রান্সফরমারে"], correct: 0 },
+        { q: "ইনসুলেটর তৈরির প্রধান উপাদান?", opts: ["চিনামাটি ও গ্লাস", "প্লাস্টিক", "রাবার", "কাঠ"], correct: 0 },
+        { q: "পিন টাইপ ইনসুলেটর কত ফুট-পাউন্ড টর্কে টাইট করতে হয়?", opts: ["১০ ফুট-পাউন্ড", "৫ ফুট-পাউন্ড", "১৫ ফুট-পাউন্ড", "২০ ফুট-পাউন্ড"], correct: 0 },
+        { q: "ক্ল্যাশ ওভার ভোল্টেজ কি?", opts: ["বিদ্যুৎ লিকেজের কারণে ইনসুলেটরে সৃষ্ট ভোল্টেজ", "ট্রান্সফরমারের প্রাইমারী ভোল্টেজ", "লাইনের ফেজ ভোল্টেজ", "আর্থ ফল্ট ভোল্টেজ"], correct: 0 },
+        { q: "পাঞ্চার ভোল্টেজ কি?", opts: ["যে ভোল্টেজে ইনসুলেটর সম্পূর্ণ ভেদ হয়ে যায়", "ফ্ল্যাশওভার ভোল্টেজ", "সহ্য ভোল্টেজ", "ব্রেকডাউন ভোল্টেজ"], correct: 0 },
+        // ইউনিট সম্পর্কিত
+        { q: "A-২ ইউনিটে পোল টপ থেকে নিউট্রালের দূরত্ব কত?", opts: ["৩' - ৬'", "২' - ৩'", "৪' - ৬'", "৫' - ৬'"], correct: 0 },
+        { q: "A৩ ইউনিটে টানা তারের শেষ থেকে পোল টপের দূরত্ব কত?", opts: ["২\" - ৩\"", "৩\" - ৪\"", "১\" - ২\"", "৪\" - ৫\""], correct: 0 },
+        { q: "G-১০৬ ইউনিটে পোল টপ থেকে ট্রান্সফরমারের নিচের দূরত্ব কত?", opts: ["৫' - ৬\"", "৪' - ৬\"", "৬' - ৬\"", "৭' - ০\""], correct: 0 },
+        { q: "G-১৩৬ ইউনিটে পোল টপ থেকে লাইটিং অ্যারেস্টারের দূরত্ব কত?", opts: ["৪' - ৬\"", "৫' - ৬\"", "৬' - ৬\"", "৭' - ৬\""], correct: 0 },
+        // আরো সত্য/মিথ্যা
+        { q: "C৩, C৪ ইউনিটে ক্রসআর্ম ব্যবহার করা হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 1 },
+        { q: "ডাবল ডাউন গাই ব্যবহার করা হয় C৮ ইউনিটে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E১-২ সিঙ্গেল ডাউন গাই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E৫-২ ক্রসআর্ম কনস্ট্রাকশন ওভারহেড গাই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "F২-২ লগ E৬-২ গাই এ ব্যবহার হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "A৫ ইউনিটে আর্থ বোল্ট সহ E১-১ ২টি ব্যবহার হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "B৪৯ লগ ৩.৬° এবং B১১০ লগ ৬.০° এ ব্যবহার হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "A১-১ ইউনিটে একটি মাত্র B-৪৬ ব্যবহার হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "M২-১ সিস্টেম গ্রাউন্ডিং ইউনিট। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "M২-১১ ইকুইপমেন্ট গ্রাউন্ডিং ইউনিট। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সিস্টেম গ্রাউন্ডিং ১৩২০ ফুট পর পর করা হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ট্রান্সফরমার তেল পরীক্ষার মান ২৬ কেভি (পুরাতন)। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ট্রান্সফরমার তেলের ফ্ল্যাশ পয়েন্ট ২০০°C। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "পোল ক্লাস C মানে পোলের বাটের সাইজ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সাসপেনশন ইনসুলেটর C-১০ এর ভোল্টেজ রেটিং ১১ কেভি। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ডি-৫ তার আর্থিং কাজে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "#১/০ ACSR তারের কারেন্ট বহন ক্ষমতা ২২৫ A। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "১০ ওয়াটের ১০টি LED বাল্ব ১০ ঘন্টা জ্বললে শক্তি ব্যয় ১ kWh। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সোজা লাইনে পোল ফেসিং ফেস টু ফেস, ব্যাক টু ব্যাক হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "BREB এর পূর্ণরূপ Bangladesh Rural Electrification Board। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "বাংলাদেশের বিদ্যুৎ ফ্রিকোয়েন্সি ৫০ Hz। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ISO প্রতিষ্ঠিত হয় ১৯৪৭ সালে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "গ্যাপ গেইজ হলো গ্যাপ পরিমাপক যন্ত্র। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "প্লায়ার হ্যান্ড টুলস। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ভূমি থেকে ১ ফুট উপরে ও ২ ফুট নিচে অংশকে গ্রাউন্ড লাইন সেকশন বলে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "বোলাইন অন এ বাইট নট তৈরীতে রশির সাইজ ১/২ ইঞ্চি। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "অস্থায়ী তার টানার নট মেইপ ভাইন নট। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সিঙ্গেল ইটারমেডিয়েট বোলাইন নটে রশি না কেটে ছোট করা যায়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "আই ইসপ্লাইস হট লাইন তৈরীতে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "শর্ট ইসপ্লাইস দুই রশির স্থায়ী জোড়া। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ব্যাক এন্ড ইন্ড ইসপ্লাইস রশির শেষ প্রান্তে করা হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "হাফ হিস + হাফ হিস = ক্লোভ হিচ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "প্রশ্ন নটের সময় যে প্রান্ত ট্রিপ করে তা উপরের দিকে রাখতে হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "টুলস রক্ষণাবেক্ষণ ৩ ধাপে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "গ্যাপ গেজ দিয়ে গ্যাপের দৈর্ঘ্য, আকৃতি পরিমাপ করা হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ক্লাইম্বিং সেটের গ্যাপের ৫ অংশ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ইনসুলেটর নষ্ট হওয়ার কারণ ফাটল, ছিদ্র, যান্ত্রিক পীড়ন। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "স্পাই টাইপ ইনসুলেটর সাবস্টেশনে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ইনসুলেটরের মেগার রিডিং ১০০০ MΩ এর উপরে হলে ভালো। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "পিন টাইপ ইনসুলেটর ১০ ফুট-পাউন্ড টাইট দিতে হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "C-৫ কোড দিয়ে ৩৩ কেভি পিন টাইপ বোঝায়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "স্পুল ইনসুলেটর নিউট্রালে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "লাইনে পাখি বসলে সেনসেটিভ আর্থ ফল্ট হতে পারে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "C-৩ ইনসুলেটর ক্রসআর্ম পিনে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 1 },
+        { q: "৩৩ কেভি ইনসুলেটর ১১ কেভি লাইনে ব্যবহার করা যায়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "১১ কেভি ইনসুলেটর ৩৩ কেভি লাইনে ব্যবহার করা যায় না। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "১০০-২৮ এর পূর্ণনাম STANDARD SPECIFICATIONS FOR 6.35/11 KV LINE। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "১০০-২৮ এ ৫টি তথ্য থাকে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ইউনিট ২ প্রকার (প্রাইমারী ও সেকেন্ডারী)। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "৩৩ কেভি লাইনের ইউনিট 'T' দিয়ে গঠিত। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "১১ কেভি ডাবল ফেজ লাইনের ইউনিট 'C' দিয়ে গঠিত। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "এলটি লাইনের ইউনিট 'J' ও 'K'। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "কনস্ট্রাকশন গ্রেড ৩টি (B, C, N)। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ভারী কনস্ট্রাকশনের জন্য গ্রেড 'B'। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "হালকা কনস্ট্রাকশনের জন্য গ্রেড 'C'। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "এ্যাংকর রড ইউনিট 'F' বর্ণ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "গাই ইউনিট 'E' বর্ণ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "গ্রাউন্ডিং ইউনিট 'M' বর্ণ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "G-১০৫ ইউনিট সিঙ্গেল ফেজ ট্রান্সফরমার রানিং লাইন। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "G-১০৬ ইউনিট সিঙ্গেল ফেজ ট্রান্সফরমার ডেড এন্ড। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "G-১৩৬ ইউনিট ৩ ফেজ সার্কিটে সিঙ্গেল ফেজ ট্রান্সফরমার। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "G-৩১২ ইউনিট থ্রি ফেজ ট্রান্সফরমার ব্যাংক (ক্লাস্টার)। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "M২-১ ইউনিট সিস্টেম গ্রাউন্ডিং। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "M২-১১ ইউনিট ইকুইপমেন্ট গ্রাউন্ডিং। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E১-১ গাই ফিটিং ১/৪ ইঞ্চি তারের জন্য। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E১-২ গাই ফিটিং ৩/৮ ইঞ্চি তারের জন্য। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E৫-২ ক্রসআর্ম কনস্ট্রাকশন ওভারহেড গাই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E৬-২ ডাবল ডাউন গাই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "গাই তারের কোণ ৪৫°। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "B-৮৭ G-৩১২ ইউনিটে ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "সিস্টেম গ্রাউন্ডিং ১৩২০ ফুট পর পর করা হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ইকুইপমেন্ট গ্রাউন্ডিং এ B-৬৫, B-৮০ লাগে। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ক্যাপাসিটর ব্যাংকের ইউনিট M৯-১৩। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ওসিআর স্থাপন ইউনিট M৩-২৫। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "ভার্টিক্যাল ক্লিয়ারেন্স রাস্তার পাশে ১৭ ফুট। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "রাস্তা ক্রসিং এ ফেজ ক্লিয়ারেন্স ১৯ ফুট। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "পাকা বাড়ির ছাদে ক্লিয়ারেন্স ৮ ফুট। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E১-২ সিঙ্গেল ডাউন গাই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "E৫-২ ক্রসআর্ম কনস্ট্রাকশন ওভারহেড গাই। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "F২-২ লগ E৬-২ গাই এ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "এ্যাংকর রড কোণ ৪৫°। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "A৫ ইউনিটে আর্থ বোল্ট সহ E১-১ ২টি। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "B৪৯ লগ ৩.৬° এ্যাংকর এ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "B১১০ লগ ৬.০° এ্যাংকর এ। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+        { q: "A১-১ ইউনিটে একটি মাত্র B-৪৬ ব্যবহৃত হয়। (সত্য/মিথ্যা)", opts: ["সত্য", "মিথ্যা"], correct: 0 },
+    ];
+
+    // ---------- বাংলা অঙ্ককে ইংরেজি অঙ্কে রূপান্তর করা ----------
+    function convertQuestionBank(bank) {
+        return bank.map(q => {
+            const convertedQ = convertBengaliDigitsToEnglish(q.q);
+            const convertedOpts = q.opts.map(opt => convertBengaliDigitsToEnglish(opt));
+            return { q: convertedQ, opts: convertedOpts, correct: q.correct };
+        });
+    }
+
+    const fullQuestionBank = convertQuestionBank(rawQuestionBank);
+
+    // ফাংশন: অপশন শাফেল (প্রশ্নের উত্তর সূচক ঠিক রেখে)
+    function shuffleOptions(qObj) {
+        const correctAns = qObj.opts[qObj.correct];
+        const options = [...qObj.opts];
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+        const newCorrect = options.indexOf(correctAns);
+        return { q: qObj.q, opts: options, correct: newCorrect };
+    }
+
+    // পরীক্ষা র‍্যান্ডম ৫০ প্রশ্ন নির্বাচন ও শাফেল
+    function getRandomQuestions(count) {
+        const bankCopy = fullQuestionBank.map(q => ({ ...q, opts: [...q.opts] }));
+        for (let i = bankCopy.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bankCopy[i], bankCopy[j]] = [bankCopy[j], bankCopy[i]];
+        }
+        return bankCopy.slice(0, count).map(q => shuffleOptions(q));
+    }
+
+    let currentQuestions = getRandomQuestions(50);
+    let totalQ = currentQuestions.length;
+    let currentIndex = 0;
+    let userAnswers = new Array(totalQ).fill(null);
+    let timerInterval = null;
+    let timeLeft = 30;
+
+    const mainCard = document.getElementById('mainCard');
+
+    function calcScore() {
+        let s = 0;
+        for (let i = 0; i < totalQ; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === currentQuestions[i].correct) s++;
+        }
+        return s;
+    }
+
+    function renderQuestion() {
+        const q = currentQuestions[currentIndex];
+        const optsHtml = q.opts.map((opt, idx) => {
+            const prefix = ['ক', 'খ', 'গ', 'ঘ'][idx] || '?';
+            let selectedClass = '';
+            if (userAnswers[currentIndex] !== null) {
+                if (idx === q.correct) selectedClass = 'selected-correct';
+                else if (idx === userAnswers[currentIndex] && userAnswers[currentIndex] !== q.correct) selectedClass = 'selected-wrong';
+            }
+            const disabledAttr = (userAnswers[currentIndex] !== null) ? 'disabled' : '';
+            return `<button class="option-btn ${selectedClass}" data-opt-index="${idx}" ${disabledAttr}><span class="option-prefix">${prefix}</span>${opt}</button>`;
+        }).join('');
+
+        const currentScore = calcScore();
+
+        mainCard.innerHTML = `
+            <div class="top-bar">
+                <div class="logo-area">
+                    <span class="logo-icon"><i class="fa-solid fa-bolt"></i> PBS</span>
+                    <span>লাইনম্যান</span>
+                </div>
+                <div class="timer-pill">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="timerDisplay">${String(timeLeft).padStart(2,'0')}</span>
+                </div>
+            </div>
+            <div class="q-meta">
+                <div class="q-counter"><i class="fa-regular fa-rectangle-list"></i> প্রশ্ন ${currentIndex+1}/${totalQ}</div>
+                <div class="score-badge"><i class="fa-regular fa-star"></i> ${currentScore}</div>
+            </div>
+            <div class="question-box">
+                <div class="question-text">${q.q}</div>
+            </div>
+            <div class="options-grid" id="optionsContainer">
+                ${optsHtml}
+            </div>
+            <div class="nav-row">
+                <button class="nav-btn" id="prevBtn" ${currentIndex === 0 ? 'disabled' : ''}><i class="fa-regular fa-circle-left"></i> পূর্ববর্তী</button>
+                <button class="nav-btn" id="nextBtn">${currentIndex === totalQ-1 ? 'সমাপ্ত' : 'পরবর্তী'} <i class="fa-regular fa-circle-right"></i></button>
+            </div>
+        `;
+
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (userAnswers[currentIndex] !== null) return;
+                const optIdx = parseInt(btn.dataset.optIndex);
+                userAnswers[currentIndex] = optIdx;
+                if (timerInterval) clearInterval(timerInterval);
+                renderQuestion();
+            });
+        });
+
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                resetTimerForNewQuestion();
+                renderQuestion();
+            }
+        });
+
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (currentIndex < totalQ - 1) {
+                currentIndex++;
+                resetTimerForNewQuestion();
+                renderQuestion();
+            } else {
+                showFinishScreen();
+            }
+        });
+
+        if (userAnswers[currentIndex] === null) {
+            startTimer();
+        } else {
+            document.getElementById('timerDisplay').innerText = '00';
+        }
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timeLeft = 30;
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timeLeft -= 1;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                if (userAnswers[currentIndex] === null) {
+                    document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+                }
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const timerSpan = document.getElementById('timerDisplay');
+        if (timerSpan) timerSpan.innerText = String(timeLeft).padStart(2, '0');
+    }
+
+    function resetTimerForNewQuestion() {
+        if (timerInterval) clearInterval(timerInterval);
+        timeLeft = 30;
+    }
+
+    function showFinishScreen() {
+        if (timerInterval) clearInterval(timerInterval);
+        const finalScore = calcScore();
+        mainCard.innerHTML = `
+            <div class="finish-screen">
+                <h2 style="color:#d1d5db; font-size:2rem;"><i class="fa-regular fa-circle-check" style="color:#4ade80;"></i> পরীক্ষা সমাপ্ত</h2>
+                <div class="result-circle">
+                    <span class="result-big">${finalScore}</span>
+                    <span style="font-size:2rem; color:#cbd5e1;">/${totalQ}</span>
+                </div>
+                <p style="font-size:1.4rem; margin:20px 0;">আপনার স্কোর <strong style="color:#fbbf24;">${finalScore}</strong></p>
+                <button class="restart-btn" id="restartBtn"><i class="fa-regular fa-rotate-right"></i> নতুন পরীক্ষা</button>
+            </div>
+        `;
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            currentQuestions = getRandomQuestions(50);
+            totalQ = currentQuestions.length;
+            currentIndex = 0;
+            userAnswers = new Array(totalQ).fill(null);
+            resetTimerForNewQuestion();
+            renderQuestion();
+        });
+    }
+
+    renderQuestion();
+})();
+</script>
+</body>
+</html>
